@@ -1,0 +1,6 @@
+**/colabfold_*/
+maxit*
+*.out
+*.err
+*.log
+*.done

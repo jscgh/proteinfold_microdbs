@@ -1,0 +1,34 @@
+#!/bin/bash
+#PBS -N micron_trunc
+#PBS -l walltime=00:30:00
+#PBS -l mem=8GB
+#PBS -l ncpus=2
+#PBS -j oe
+#PBS -o /srv/scratch/sbf/dbs/proteinfold_microdbs/micron_repro_repo/micron_truncate_job.out
+
+set -euo pipefail
+
+cd /srv/scratch/sbf/dbs/proteinfold_microdbs/micron_repro_repo
+
+# Optional module setup. The truncation script also attempts loads internally.
+module load hhsuite/3.3.0 >/dev/null 2>&1 || true
+module load zstd >/dev/null 2>&1 || true
+
+WORK_DIR="./work"
+SOURCE_DB_DIR="./old"
+MICRON_DIR="./micron"
+SAMPLES_CSV="./fulltest.csv"
+N_PER_SAMPLE="4"
+MAX_TOTAL="12"
+LOG_FILE="./truncate_micron_from_sample_hits.log"
+WINDOW_MIN="90" ## Defaults to anything run in the last 90 min
+
+scripts/truncate_micron_from_sample_hits.sh \
+  "$WORK_DIR" \
+  "$SOURCE_DB_DIR" \
+  "$MICRON_DIR" \
+  "$SAMPLES_CSV" \
+  "$N_PER_SAMPLE" \
+  "$MAX_TOTAL" \
+  "$LOG_FILE" \
+  "$WINDOW_MIN"
