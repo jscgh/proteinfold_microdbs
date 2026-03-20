@@ -4,3 +4,5 @@ maxit*
 *.err
 *.log
 *.done
+micron/params/*.ckpt
+micron/params/ccd*

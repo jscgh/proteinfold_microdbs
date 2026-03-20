@@ -2,13 +2,13 @@
 
 ## Goal
 
-Create a small, test-friendly DB subset (`micron/`) from full source DBs (`old/`) that preserves enough template/MSA content for ProteinFold test runs.
+Create a small, test-friendly DB subset (`micron/`) from full source DBs that preserves enough template/MSA content for ProteinFold test runs.
 
 ## Input Signals
 
-- Recent per-sample hit artifacts from work directory (MSA/template outputs).
+- Archived per-sample hit artifacts from a known-good full-DB run (for this rebuild, `work_dev/Mar-16`).
 - Sample list from CSV (for example `fulltest.csv`).
-- Source DB root (`old/`).
+- Source DB root (for this rebuild, `/srv/scratch/sbf/dbs/proteinfold_dbs`).
 
 ## Core Strategy
 
@@ -17,7 +17,8 @@ Create a small, test-friendly DB subset (`micron/`) from full source DBs (`old/`
 3. Aggregate IDs across samples and cap total set size (for example ~12).
 4. Rewrite selected micron DB files from source using those IDs.
 5. Reconcile template indices (`pdb70`, `pdb100`) with mmCIF files.
-6. Prune unreferenced mmCIF files to `pdb_mmcif/orphaned/`.
+6. Sync model parameter assets into `params/`, including Boltz checkpoints and chemistry files.
+7. Prune unreferenced mmCIF files to `pdb_mmcif/orphaned/`.
 
 ## Updated Paths in `micron/`
 
@@ -27,6 +28,8 @@ Create a small, test-friendly DB subset (`micron/`) from full source DBs (`old/`
 - `pdb70/pdb70_{a3m,cs219,hhm}.{ffdata,ffindex}`
 - `pdb100/pdb100_2021Mar03_{a3m,cs219,hhm,pdb}.{ffdata,ffindex}`
 - `pdb_mmcif/mmcif_files/*.cif`
+- `params/`
+- `params/mols/`
 
 ## Safety Rules
 
@@ -34,3 +37,4 @@ Create a small, test-friendly DB subset (`micron/`) from full source DBs (`old/`
 - Required mmCIFs are derived from truncated template indices.
 - Missing required mmCIFs trigger a hard error.
 - Extra mmCIFs are moved to `pdb_mmcif/orphaned/` for review.
+- `params/mols/` must retain the canonical Boltz molecule `.pkl` set required for inference. Additional `.pkl` files are optional.
