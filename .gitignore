@@ -1,8 +1,28 @@
-**/colabfold_*/
-maxit*
+# Generated run output
 *.out
 *.err
-*.log
 *.done
-micron/params/*.ckpt
-micron/params/ccd*
+*.log
+/logs/
+
+# Model weights, parameters, and chemistry caches are intentionally not shipped.
+/microdbs/params/
+
+# Regenerable MMseqs precomputed indices and full-database metadata.
+*.idx
+*.idx.index
+*.idx.dbtype
+*_taxonomy
+*.lookup
+*_sample*.tsv
+
+# Production-only HelixFold3 helper data.
+*maxit*
+
+# Local build and workflow scratch.
+/staging/
+/micron_unitfix/
+*.tmp
+.nextflow/
+.nf-test*/
+nf-test.log
